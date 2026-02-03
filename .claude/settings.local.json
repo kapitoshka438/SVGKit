@@ -1,0 +1,23 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(ls:*)",
+      "Bash(swift build:*)",
+      "Bash(swift test:*)",
+      "Bash(grep:*)",
+      "Bash(find:*)",
+      "Bash(while read file)",
+      "Bash(do echo \"=== $file ===\")",
+      "Bash(done)",
+      "Bash(swift package:*)",
+      "Bash(xcodebuild test:*)",
+      "Bash(xcodebuild:*)",
+      "Bash(xcrun simctl:*)",
+      "Bash(open:*)",
+      "Bash(killall:*)",
+      "Bash(swiftc:*)",
+      "Bash(osascript:*)"
+    ]
+  }
+}

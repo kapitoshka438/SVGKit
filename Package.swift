@@ -1,49 +1,82 @@
-// swift-tools-version:5.3
+// swift-tools-version:5.10
 import PackageDescription
 
 let package = Package(
     name: "SVGKit",
     platforms: [
-        .macOS(.v10_10),
-        .iOS(.v13),
-        .tvOS(.v13)
+        .macOS(.v12),
+        .iOS(.v15),
+        .tvOS(.v15)
     ],
     products: [
         .library(
-            name: "SVGKit",
-            targets: ["SVGKit"]
-        ),
-        .library(
             name: "SVGKitSwift",
             targets: ["SVGKitSwift"]
+        ),
+        .library(
+            name: "SVGKitCore",
+            targets: ["SVGKitCore"]
+        ),
+        .library(
+            name: "SVGKitDOM",
+            targets: ["SVGKitDOM"]
+        ),
+        .library(
+            name: "SVGKitParser",
+            targets: ["SVGKitParser"]
+        ),
+        .library(
+            name: "SVGKitRendering",
+            targets: ["SVGKitRendering"]
         )
     ],
-    dependencies: [
-        .package(url: "https://github.com/CocoaLumberjack/CocoaLumberjack.git", .upToNextMajor(from: "3.7.0"))
-    ],
+    dependencies: [],
     targets: [
-        .target(
-            name: "SVGKit",
-            dependencies: [
-                "CocoaLumberjack"
-            ],
-            path: "Source",
-            exclude: [
-                "SwiftUI additions"
-            ],
-            resources: [.process("Resources/PrivacyInfo.xcprivacy")],
-            publicHeadersPath: "include",
-            cSettings: [
-                .headerSearchPath("privateHeaders"),
-                .define("NS_BLOCK_ASSERTIONS", to: "1", .when(configuration: .release))
-            ]
-        ),
         .target(
             name: "SVGKitSwift",
             dependencies: [
-                "SVGKit"
+                "SVGKitCore",
+                "SVGKitDOM",
+                "SVGKitParser",
+                "SVGKitRendering"
             ],
-            path: "Source/SwiftUI additions"
+            resources: [.process("Resources/PrivacyInfo.xcprivacy")]
+        ),
+        .target(
+            name: "SVGKitCore",
+        ),
+        .target(
+            name: "SVGKitDOM",
+            dependencies: [
+                "SVGKitCore"
+            ],
+        ),
+        .target(
+            name: "SVGKitParser",
+            dependencies: [
+                "SVGKitCore",
+                "SVGKitDOM"
+            ],
+        ),
+        .target(
+            name: "SVGKitRendering",
+            dependencies: [
+                "SVGKitCore",
+                "SVGKitDOM"
+            ],
+        ),
+        .testTarget(
+            name: "SVGKitTests",
+            dependencies: [
+                "SVGKitCore",
+                "SVGKitDOM",
+                "SVGKitParser",
+                "SVGKitRendering",
+                "SVGKitSwift"
+            ],
+            resources: [
+                .process("Resources")
+            ]
         )
     ]
 )
